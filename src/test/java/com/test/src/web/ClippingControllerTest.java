@@ -1,5 +1,7 @@
 package com.test.src.web;
 
+import com.test.src.domain.Appointment;
+import com.test.src.domain.ClassificationType;
 import com.test.src.domain.Clipping;
 import com.test.src.domain.Notification;
 import com.test.src.repository.AppointmentRepository;
@@ -7,6 +9,7 @@ import com.test.src.repository.ClippingRepository;
 import com.test.src.repository.NotificationRepository;
 import com.test.src.service.ClippingService;
 import com.test.utils.ModelFactory;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,12 +54,23 @@ public class ClippingControllerTest {
   }
 
   @Test
+  public void shouldReturnOneAppointment() {
+    Clipping clipping = modelFactory.returnClipping();
+    clipping.setClassificationType(ClassificationType.HEARING);
+    clippingController.createClippings(clipping);
+    List<Appointment> list = appointmentRepository.findAll();
+    Assert.assertEquals(1, list.size());
+    Assert.assertNotEquals(clipping.getClippingDate(), list.get(0).getCreated_at());
+  }
+
+  @Test
   public void shouldReturnOneNotificationBecauseClippingIsImportant() {
     Clipping clipping = modelFactory.returnClipping();
     clipping.setImportant(true);
     clippingController.createClippings(clipping);
-    Page<Notification> notifications = notificationRepository.findAllByDeletedIsFalse(Pageable.unpaged());
-    Assert.assertEquals(1,notifications.getTotalElements());
+    Page<Notification> notifications = notificationRepository
+        .findAllByDeletedIsFalse(Pageable.unpaged());
+    Assert.assertEquals(1, notifications.getTotalElements());
   }
 
   @Test
