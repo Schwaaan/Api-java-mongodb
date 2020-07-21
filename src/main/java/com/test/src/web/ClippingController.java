@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +61,7 @@ public class ClippingController {
 
   @DeleteMapping("/v1/clippings")
   public String deleteOneOrAll(@RequestParam(value = "id", required = false) String id) {
-    if (id.isEmpty()) {
+    if (StringUtils.isEmpty(id)) {
       List<Clipping> clippingList = clippingRepository.findAll();
       for (Clipping clipping : clippingList) {
         clipping.setDeleted(true);
