@@ -19,4 +19,4 @@ Para utilizar essa api você deverá seguir as seguintes etapas :
 3 - Iniciar a aplicação.
 
 
-Para ver a documentação você deve acessar http://localhost:8080/swagger-ui.html.
+Para ver a documentação você deve acessar http://localhost:8060/swagger-ui.html.
